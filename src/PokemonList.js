@@ -40,8 +40,8 @@ class PokemonList extends React.Component {
             <div>
                 <h1>Pokemon List:</h1>
                 <table>
-                    {this.renderHeader()}
-                    {this.renderList(this.state.pokemonList)}
+                    <thead>{this.renderHeader()}</thead>
+                    <tbody>{this.renderList(this.state.pokemonList)}</tbody>
                 </table>
             </div>
         )
