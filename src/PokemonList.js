@@ -1,26 +1,38 @@
 import React from 'react';
 
 class PokemonList extends React.Component {
-
-    constructor(props) {
+	constructor(props) {
         super(props);
-        this.state = { pokemonList: [] };
+        this.state = { pokemonList: [], next: null, prev: null };
     }
 
     componentDidMount() {
-        fetch('https://pokemon-academy-api-pbr.herokuapp.com/pokemons/list')
-            .then(response => response.json())
-            .then(jsonResponse => {
-                const results = jsonResponse.results;
-                this.setState({ pokemonList: results })
-            })
+        this.fetchPokemonList('https://pokemon-academy-api-pbr.herokuapp.com/pokemons/list')
+    }
+
+    fetchPokemonList = (url) => {
+        fetch(url)
+        .then(response => response.json())
+        .then(jsonResponse => {
+            console.log(jsonResponse);
+            const { results, next, prev } = jsonResponse; 
+            this.setState({ pokemonList: results, next: next, prev: prev });
+        })
+    }
+
+    onNextButtonClick = () => {
+        this.fetchPokemonList(this.state.next);
+    }
+
+    onPrevButtonClick = () => {
+        this.fetchPokemonList(this.state.prev);
     }
 
     renderList = (pokemonList) => {
         return pokemonList.map((pokemon, index) => {
             const { imageUrl, name, level } = pokemon;
-            return <tr key={index}> 
-                <td><img src={imageUrl}/></td>
+            return <tr key={index}>
+                <td><img src={imageUrl} /></td>
                 <td><p>{name}</p></td>
                 <td><p>{level}</p></td>
             </tr>
@@ -36,13 +48,18 @@ class PokemonList extends React.Component {
     }
 
     render() {
-        return(
+        window.scrollTo(0, 0)
+        return (
             <div>
                 <h1>Pokemon List:</h1>
+                {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
+                {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
                 <table>
                     <thead>{this.renderHeader()}</thead>
                     <tbody>{this.renderList(this.state.pokemonList)}</tbody>
                 </table>
+                {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
+                {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
             </div>
         )
     }
