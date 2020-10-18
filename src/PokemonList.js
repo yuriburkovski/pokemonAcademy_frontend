@@ -7,7 +7,7 @@ class PokemonList extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchPokemonList('https://pokemons-frontend.herokuapp.com/pokemons/list')
+        this.fetchPokemonList('https://pokemon-academy-api.herokuapp.com/pokemons/list')
     }
 
     fetchPokemonList = (url) => {

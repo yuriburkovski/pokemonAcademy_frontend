@@ -9,12 +9,16 @@ class PokemonDetails extends React.Component {
 
     componentDidMount() {
         const name = this.props.match.params.name;
-        fetch(`https://pokemons-frontend.herokuapp.com/pokemons/${name}`)
+        fetch(`https://pokemon-academy-api.herokuapp.com/pokemons/${name}`)
         .then(response => response.json())
         .then(jsonResponse => {
             console.log(jsonResponse);
             this.setState({pokemonDetails: jsonResponse});
         })
+	}
+
+	onBackButtonClick = () => {
+        this.props.history.goBack();
     }
 
     renderPokemon = () => {
@@ -31,11 +35,15 @@ class PokemonDetails extends React.Component {
         )
     }
 
-    render() {
+       render() {
         return (
             <div>
-                <h1>Pokemon details!</h1>
+                <h1>Pokemon details</h1>
+                {/* renderujemy szczegóły jeśli state pokemon details istnieje */}
                 {this.state.pokemonDetails && this.renderPokemon()}
+                {/* renderujemy napis ładowania jeśli state pokemon details nie istnieje */}
+                {!this.state.pokemonDetails && <h2>Loading details</h2>}
+                <button onClick={this.onBackButtonClick}>Back to list</button>
             </div>
         )
     }
