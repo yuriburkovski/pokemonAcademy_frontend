@@ -7,7 +7,7 @@ class PokemonList extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchPokemonList('https://pokemon-academy-api-pbr.herokuapp.com/pokemons/list')
+        this.fetchPokemonList('https://pokemons-frontend.herokuapp.com/pokemons/list')
     }
 
     fetchPokemonList = (url) => {
@@ -28,10 +28,15 @@ class PokemonList extends React.Component {
         this.fetchPokemonList(this.state.prev);
     }
 
+    onItemClick(name){
+        this.props.history.push({pathname: `/pokemon/${name}`});
+    }
+
     renderList = (pokemonList) => {
         return pokemonList.map((pokemon, index) => {
             const { imageUrl, name, level } = pokemon;
-            return <tr key={index}>
+            const itemClick = this.onItemClick.bind(this, name);
+            return <tr onClick={itemClick} key={index}>
                 <td><img src={imageUrl} /></td>
                 <td><p>{name}</p></td>
                 <td><p>{level}</p></td>
