@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import loadingHOC from './loadingHOC';
 
 class PokemonDetails extends React.Component {
 
@@ -14,10 +16,11 @@ class PokemonDetails extends React.Component {
         .then(jsonResponse => {
             console.log(jsonResponse);
             this.setState({pokemonDetails: jsonResponse});
+            this.props.changeLoadingIndicator(false);
         })
-	}
+    }
 
-	onBackButtonClick = () => {
+    onBackButtonClick = () => {
         this.props.history.goBack();
     }
 
@@ -25,28 +28,26 @@ class PokemonDetails extends React.Component {
         const { imageUrl, name, types, abilities, height, weight } = this.state.pokemonDetails;
         return (
             <div>
-                <p>{`name: ${name}`}</p>
-                <p>{`types: ${types}`}</p>
-                <p>{`abilities: ${abilities}`}</p>
-                <p>{`height: ${height}`}</p>
-                <p>{`weight: ${weight}`}</p>
+                <h3>{`name: ${name}`}</h3>
+                <h3>{`types: ${types}`}</h3>
+                <h3>{`abilities: ${abilities}`}</h3>
+                <h3>{`height: ${height}`}</h3>
+                <h3>{`weight: ${weight}`}</h3>
                 <img src={imageUrl}/>
             </div>
         )
     }
 
-       render() {
+    render() {
+        console.log(this.props.getLoadingStatus());
         return (
             <div>
                 <h1>Pokemon details</h1>
-                {/* renderujemy szczegóły jeśli state pokemon details istnieje */}
-                {this.state.pokemonDetails && this.renderPokemon()}
-                {/* renderujemy napis ładowania jeśli state pokemon details nie istnieje */}
-                {!this.state.pokemonDetails && <h2>Loading details</h2>}
+                {!this.props.getLoadingStatus() && this.renderPokemon()}
                 <button onClick={this.onBackButtonClick}>Back to list</button>
             </div>
         )
     }
 }
 
-export default PokemonDetails;
+export default loadingHOC(withRouter(PokemonDetails), "Pokemon Details loading!");

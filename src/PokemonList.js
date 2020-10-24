@@ -1,9 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import loadingHOC from './loadingHOC';
+import Search from './Search';
 
 class PokemonList extends React.Component {
-	constructor(props) {
+
+    constructor(props) {
         super(props);
-        this.state = { pokemonList: [], next: null, prev: null };
+        this.state = { pokemonList: [], searchResult: [], next: null, prev: null };
     }
 
     componentDidMount() {
@@ -16,7 +20,8 @@ class PokemonList extends React.Component {
         .then(jsonResponse => {
             console.log(jsonResponse);
             const { results, next, prev } = jsonResponse; 
-            this.setState({ pokemonList: results, next: next, prev: prev });
+            this.setState({ pokemonList: results, searchResult: results, next: next, prev: prev });
+            this.props.changeLoadingIndicator(false);
         })
     }
 
@@ -52,16 +57,24 @@ class PokemonList extends React.Component {
         </tr>
     }
 
+    onSearchInputChange = (pokemonToFind) => {
+        const newSearchResult = this.state.pokemonList.filter((pokemonItem)=>{
+            return pokemonItem.name.includes(pokemonToFind);
+        });
+        this.setState({searchResult: newSearchResult})
+    } 
+
     render() {
         window.scrollTo(0, 0)
         return (
             <div>
                 <h1>Pokemon List:</h1>
+                <Search onInputChange={this.onSearchInputChange}/>
                 {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
                 {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
                 <table>
                     <thead>{this.renderHeader()}</thead>
-                    <tbody>{this.renderList(this.state.pokemonList)}</tbody>
+                    <tbody>{this.renderList(this.state.searchResult)}</tbody>
                 </table>
                 {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
                 {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
@@ -70,4 +83,4 @@ class PokemonList extends React.Component {
     }
 }
 
-export default PokemonList;
+export default loadingHOC(withRouter(PokemonList), 'Loading pokemon list');
