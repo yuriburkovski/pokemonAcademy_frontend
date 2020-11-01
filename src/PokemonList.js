@@ -15,13 +15,28 @@ class PokemonList extends React.Component {
     }
 
     fetchPokemonList = (url) => {
-        fetch(url)
+        const token = localStorage.getItem('token');
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response=>{
+            if(response.status >= 400) {
+                throw new Error("User not authorized!");
+            }
+            return response;
+        })
         .then(response => response.json())
         .then(jsonResponse => {
             console.log(jsonResponse);
             const { results, next, prev } = jsonResponse; 
             this.setState({ pokemonList: results, searchResult: results, next: next, prev: prev });
             this.props.changeLoadingIndicator(false);
+        })
+        .catch(error=>{
+            this.props.history.push({pathname: '/login'})
         })
     }
 
@@ -57,6 +72,11 @@ class PokemonList extends React.Component {
         </tr>
     }
 
+    logout = () => {
+        localStorage.removeItem('token');
+        window.location.reload(true);
+    }
+
     onSearchInputChange = (pokemonToFind) => {
         const newSearchResult = this.state.pokemonList.filter((pokemonItem)=>{
             return pokemonItem.name.includes(pokemonToFind);
@@ -78,6 +98,7 @@ class PokemonList extends React.Component {
                 </table>
                 {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
                 {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
+                <button onClick={this.logout}>Logout</button>
             </div>
         )
     }
