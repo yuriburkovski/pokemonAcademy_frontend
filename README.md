@@ -1,4 +1,4 @@
-It's a React project which use the PokemonAPI (other mine project  https://github.com/yuriburkovski/pokemonAPI)
+It's a React(front-end) project which use the PokemonAPI (other mine project  https://github.com/yuriburkovski/pokemonAPI)
 
 project was deployed in Heroku:  https://pokemons-frontend.herokuapp.com/
 
