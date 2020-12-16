@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import loadingHOC from './loadingHOC';
 import Search from './Search';
+import './App.css';
 
 class PokemonList extends React.Component {
 
@@ -87,21 +88,24 @@ class PokemonList extends React.Component {
     render() {
         window.scrollTo(0, 0)
         return (
-            <div>
+            <div className = "App">
                 <h1>Pokemon List:</h1>
                 <Search onInputChange={this.onSearchInputChange}/>
-                {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
-                {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
+                <div>
+                    {this.state.prev && <button className = "App-button" onClick={this.onPrevButtonClick}>Prev</button>}
+                    {this.state.next && <button className = "App-button" onClick={this.onNextButtonClick}>Next</button> }
+                </div>
                 <table>
                     <thead>{this.renderHeader()}</thead>
                     <tbody>{this.renderList(this.state.searchResult)}</tbody>
                 </table>
-                {this.state.prev && <button onClick={this.onPrevButtonClick}>Prev</button>}
-                {this.state.next && <button onClick={this.onNextButtonClick}>Next</button> }
-                <button onClick={this.logout}>Logout</button>
+                <div>
+                    {this.state.prev && <button className = "App-button" onClick={this.onPrevButtonClick}>Prev</button>}
+                    {this.state.next && <button className = "App-button" onClick={this.onNextButtonClick}>Next</button> }
+                    <button className = "App-button" onClick={this.logout}>Logout</button>
+                </div>
             </div>
         )
     }
 }
-
 export default loadingHOC(withRouter(PokemonList), 'Loading pokemon list');

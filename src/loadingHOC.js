@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 const loadingHOC = (WrappedComponent, loadingMessage) => {
     return class extends React.Component {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import loadingHOC from './loadingHOC';
+import './App.css';
 
 class PokemonDetails extends React.Component {
 
@@ -41,10 +42,10 @@ class PokemonDetails extends React.Component {
     render() {
         console.log(this.props.getLoadingStatus());
         return (
-            <div>
+            <div className = "App">
                 <h1>Pokemon details</h1>
                 {!this.props.getLoadingStatus() && this.renderPokemon()}
-                <button onClick={this.onBackButtonClick}>Back to list</button>
+                <button className = "App-button" onClick={this.onBackButtonClick}>Back to list</button>
             </div>
         )
     }

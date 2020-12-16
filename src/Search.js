@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 const Search = (props) => {
 
@@ -6,9 +7,8 @@ const Search = (props) => {
         props.onInputChange(event.target.value);
     }
 
-
     return (
-        <div>
+        <div className = "App">
             <form>
                 <p>Find Your pokemons!</p>
                 <input type="text" onChange={onInputChange}/>

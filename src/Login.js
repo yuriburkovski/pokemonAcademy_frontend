@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
+import './App.css';
 
 class LoginForm extends React.Component {
 
@@ -20,8 +21,6 @@ class LoginForm extends React.Component {
         }).then(response=>{
             if(response.status == 200){
                 const authHeader = response.headers.get('Authorization');
-                // const splitAuthHeader = authHeader.split(' ');
-                // const token = splitAuthHeader[1];
                 const token = authHeader.split(' ')[1];
                 if(token) {
                     console.log(token);
@@ -36,35 +35,26 @@ class LoginForm extends React.Component {
         }).catch(error=>{
             this.setState({error: true});
         })
-
-        /*
-        .then(response=>{
-            response.headers.forEach(header=>{
-                console.log('header', header);
-            })
-            console.log('response', response.status);
-        })
-        */
     }
 	render() {
         return(
-            <div>
-                <form>
-                    <p>Login:</p>
-                    <input type="text" ref={ref=>{
-                        this.login = ref;
-                    }}/>
-                    <p>Password:</p>
-                    <input type="password" ref={ref=>{
-                        this.password = ref;
-                    }}/>
-                    <button onClick={this.onLoginButtonClick}>Login</button>
-                </form>
+            <div className = "Login">
+                <div>
+                    <form>
+                        <p>Login:</p>
+                        <input type="text" ref={ref=>{
+                            this.login = ref;
+                        }}/>
+                        <p>Password:</p>
+                        <input type="password" ref={ref=>{
+                            this.password = ref;
+                        }}/>
+                    </form>
+                    <button className = "App-button" onClick={this.onLoginButtonClick}>Login</button>
+                </div>
                 {this.state.error && <p>Try to login again!</p>}
             </div>
         )
     }
-
-
 }
 export default LoginForm;

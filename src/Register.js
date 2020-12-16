@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {withRouter} from 'react-router-dom';
+import './App.css';
 
 const RegisterForm = (props) => {
 	const[error, setError] = useState(false);
@@ -33,7 +34,7 @@ const RegisterForm = (props) => {
 	}
 
 	return(
-		<div>
+		<div className = "App">
 			<form>
 			{error && <p>User already exists in db!</p>}
 				<p>Login</p>
@@ -44,8 +45,8 @@ const RegisterForm = (props) => {
 				<input ref={ref=>{
 					passwordRef = ref
 				}}type= "password"/>
-				<button onClick={onRegisterButtonClick}>Register</button>
 			</form>
+			<button className = "App-button" onClick={onRegisterButtonClick}>Register</button>
 		</div>
 	)
 }

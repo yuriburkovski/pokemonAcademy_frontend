@@ -8,14 +8,16 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import PokemonDetails from './PokemonDetails';
 import RegisterForm from './Register';
 import LoginForm from './Login';
+import './App.css';
 
 ReactDOM.render(
   <BrowserRouter>
-    <div>
+    <div className = "App">
       <Route exact path="/" component={PokemonList}/>
       <Route path="/pokemon/:name" component={PokemonDetails}/>
       <Route path="/register" component={RegisterForm}/>
       <Route path="/login" component={LoginForm}/>
+      <Route path="/app" component={App}/>
     </div>
   </BrowserRouter>,
   document.getElementById('root')
